@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ResultPattern-FluentValidation.Api/ResultPattern-FluentValidation.Api.csproj" />
+  <Project Path="ResultPattern-FluentValidation.Db/ResultPattern-FluentValidation.Db.csproj" />
+</Solution>
