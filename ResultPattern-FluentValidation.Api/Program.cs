@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using ResultPattern_FluentValidation.Api.Services;
 using ResultPattern_FluentValidation.Db.AppDbContextModels;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
+
+builder.Services.AddScoped<IItemService, ItemService>();
 
 var app = builder.Build();
 

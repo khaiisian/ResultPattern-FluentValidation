@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ResultPattern_FluentValidation.Api.Models;
+using ResultPattern_FluentValidation.Api.Services;
 using ResultPattern_FluentValidation.Db.AppDbContextModels;
 
 namespace ResultPattern_FluentValidation.Api.Controllers;
@@ -10,53 +11,47 @@ namespace ResultPattern_FluentValidation.Api.Controllers;
 [ApiController]
 public class ItemController : ControllerBase
 {
-    private readonly AppDbContext _appDbContext;
+    private readonly IItemService _itemService;
 
-    public ItemController(AppDbContext appDbContext)
+    public ItemController(IItemService itemService)
     {
-        _appDbContext = appDbContext;
+        _itemService = itemService;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAllItems()
     {
-        var lst = await _appDbContext.TblItems.ToListAsync();
+        var lst = await _itemService.GetAll();
         return Ok(lst);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateItem(CreateItemModel reqeust)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
     {
-        var item = new TblItem
-        {
-            Name = reqeust.Name,
-            Qty = reqeust.Qty,
-            Price = reqeust.Price,
-        };
+        var res = await _itemService.GetById(id);
+        return Ok(res);
+    }
 
-        await _appDbContext.TblItems.AddAsync(item);
-        int result = await _appDbContext.SaveChangesAsync();
+    [HttpPost]
+    public async Task<IActionResult> CreateItem(CreateItemModel request)
+    {
+        var res = await _itemService.Create(request);
 
-        var msg = result > 0 ? "Save successful." : "Save failed.";
-        return Ok(msg);
+        return Ok(res);
     }
 
     [HttpPatch("{id}")]
     public async Task<IActionResult> UpdateItem(int id, UpdateItemModel request)
     {
-        var item = await _appDbContext.TblItems.FirstOrDefaultAsync(x => x.Id == id);
-        if (item is null) return NotFound("No data found.");
+        var res = await _itemService.Update(id, request);
 
-        if(!string.IsNullOrEmpty(request.Name)) item.Name = request.Name;
+        return Ok(res);
+    }
 
-        if(request.Qty.HasValue) item.Qty = request.Qty.Value;
-
-        if(request.Price.HasValue) item.Price = request.Price.Value;
-
-        int result = await _appDbContext.SaveChangesAsync();
-
-        var msg = result > 0 ? "Update successful." : "Update Failed.";
-
-        return Ok(msg);
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var res = await _itemService.Delete(id);
+        return Ok(res);
     }
 }
