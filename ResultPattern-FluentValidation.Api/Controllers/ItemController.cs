@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ResultPattern_FluentValidation.Api.Models;
 using ResultPattern_FluentValidation.Api.Services;
+using ResultPattern_FluentValidation.Api.Shared;
 using ResultPattern_FluentValidation.Db.AppDbContextModels;
 
 namespace ResultPattern_FluentValidation.Api.Controllers;
@@ -21,15 +22,25 @@ public class ItemController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllItems()
     {
-        var lst = await _itemService.GetAll();
-        return Ok(lst);
+        var res = await _itemService.GetAll();
+        return Ok(res);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
         var res = await _itemService.GetById(id);
-        return Ok(res);
+        if (res.Type == ResultType.Success)
+        {
+            return Ok(res);
+        }
+
+        if (res.Type == ResultType.NotFound)
+        {
+            return NotFound(res);
+        }
+
+        return StatusCode(500, res);
     }
 
     [HttpPost]
@@ -37,7 +48,12 @@ public class ItemController : ControllerBase
     {
         var res = await _itemService.Create(request);
 
-        return Ok(res);
+        if (res.Type == ResultType.Success)
+        {
+            return Ok(res);
+        }
+
+        return StatusCode(500, res);
     }
 
     [HttpPatch("{id}")]
@@ -45,13 +61,34 @@ public class ItemController : ControllerBase
     {
         var res = await _itemService.Update(id, request);
 
-        return Ok(res);
+        if (res.Type == ResultType.Success)
+        {
+            return Ok(res);
+        }
+
+        if (res.Type == ResultType.NotFound)
+        {
+            return NotFound(res);
+        }
+
+        return StatusCode(500, res);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         var res = await _itemService.Delete(id);
-        return Ok(res);
+            
+        if (res.Type == ResultType.Success)
+        {
+            return Ok(res);
+        }
+
+        if (res.Type == ResultType.NotFound)
+        {
+            return NotFound(res);
+        }
+
+        return StatusCode(500, res);
     }
 }

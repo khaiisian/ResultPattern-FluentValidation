@@ -3,11 +3,16 @@ using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using ResultPattern_FluentValidation.Api.Services;
 using ResultPattern_FluentValidation.Db.AppDbContextModels;
+using ResultPattern_FluentValidation.Api.Filters;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services
-builder.Services.AddControllers();
+builder.Services.AddControllers(opt =>
+{
+    opt.Filters.Add<ValidationFilter>();
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -20,8 +25,13 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddFluentValidationClientsideAdapters();
+//builder.Services.AddFluentValidationAutoValidation();
+//builder.Services.AddFluentValidationClientsideAdapters();
+
+builder.Services.Configure<ApiBehaviorOptions>(opt =>
+{
+    opt.SuppressModelStateInvalidFilter = true;
+});
 
 builder.Services.AddScoped<IItemService, ItemService>();
 
