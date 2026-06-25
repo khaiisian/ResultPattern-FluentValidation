@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using ResultPattern_FluentValidation.Api.Shared;
+using ResultPattern_FluentValidation.Services.Shared;
 
 namespace ResultPattern_FluentValidation.Api.Filters;
 //testing

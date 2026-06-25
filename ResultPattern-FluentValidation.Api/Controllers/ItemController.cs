@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ResultPattern_FluentValidation.Api.Models;
-using ResultPattern_FluentValidation.Api.Services;
-using ResultPattern_FluentValidation.Api.Shared;
-using ResultPattern_FluentValidation.Db.AppDbContextModels;
+using ResultPattern_FluentValidation.Services;
+using ResultPattern_FluentValidation.Services.Models.Request;
+using ResultPattern_FluentValidation.Services.Shared;
 
 namespace ResultPattern_FluentValidation.Api.Controllers;
 
@@ -30,65 +27,46 @@ public class ItemController : ControllerBase
     public async Task<IActionResult> GetById(int id)
     {
         var res = await _itemService.GetById(id);
-        if (res.Type == ResultType.Success)
+        return res.Type switch
         {
-            return Ok(res);
-        }
-
-        if (res.Type == ResultType.NotFound)
-        {
-            return NotFound(res);
-        }
-
-        return StatusCode(500, res);
+            ResultType.Success => Ok(res),
+            ResultType.NotFound => NotFound(res),
+            _ => StatusCode(500, res)
+        };
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateItem(CreateItemModel request)
+    public async Task<IActionResult> CreateItem(CreateItemRequest request)
     {
         var res = await _itemService.Create(request);
-
-        if (res.Type == ResultType.Success)
+        return res.Type switch
         {
-            return Ok(res);
-        }
-
-        return StatusCode(500, res);
+            ResultType.Success => Ok(res),
+            _ => StatusCode(500, res)
+        };
     }
 
     [HttpPatch("{id}")]
-    public async Task<IActionResult> UpdateItem(int id, UpdateItemModel request)
+    public async Task<IActionResult> UpdateItem(int id, UpdateItemRequest request)
     {
         var res = await _itemService.Update(id, request);
-
-        if (res.Type == ResultType.Success)
+        return res.Type switch
         {
-            return Ok(res);
-        }
-
-        if (res.Type == ResultType.NotFound)
-        {
-            return NotFound(res);
-        }
-
-        return StatusCode(500, res);
+            ResultType.Success => Ok(res),
+            ResultType.NotFound => NotFound(res),
+            _ => StatusCode(500, res)
+        };
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         var res = await _itemService.Delete(id);
-            
-        if (res.Type == ResultType.Success)
+        return res.Type switch
         {
-            return Ok(res);
-        }
-
-        if (res.Type == ResultType.NotFound)
-        {
-            return NotFound(res);
-        }
-
-        return StatusCode(500, res);
+            ResultType.Success => Ok(res),
+            ResultType.NotFound => NotFound(res),
+            _ => StatusCode(500, res)
+        };
     }
 }

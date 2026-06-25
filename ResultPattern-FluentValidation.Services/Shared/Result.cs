@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace ResultPattern_FluentValidation.Api.Shared;
+namespace ResultPattern_FluentValidation.Services.Shared;
 
 public enum ResultType
 {
@@ -23,7 +21,7 @@ public class Result<T>
     private Result() { }
 
     public static Result<T> Success(T data, string message = "Operation successful.") =>
-    new() { IsSuccess = true, Data = data, Message = message, Type = ResultType.Success };
+        new() { IsSuccess = true, Data = data, Message = message, Type = ResultType.Success };
 
     public static Result<T> NotFound(string message = "No data found.") =>
         new() { IsSuccess = false, Message = message, Type = ResultType.NotFound };

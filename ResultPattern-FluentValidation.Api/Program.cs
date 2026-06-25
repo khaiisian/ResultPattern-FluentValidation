@@ -1,7 +1,8 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using ResultPattern_FluentValidation.Api.Services;
+using ResultPattern_FluentValidation.DataAccess;
+using ResultPattern_FluentValidation.Services;
 using ResultPattern_FluentValidation.Db.AppDbContextModels;
 using ResultPattern_FluentValidation.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,7 @@ builder.Services.Configure<ApiBehaviorOptions>(opt =>
     opt.SuppressModelStateInvalidFilter = true;
 });
 
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IItemService, ItemService>();
 
 var app = builder.Build();

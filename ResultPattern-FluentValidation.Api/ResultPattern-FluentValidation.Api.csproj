@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ResultPattern-FluentValidation.Db\ResultPattern-FluentValidation.Db.csproj" />
+    <ProjectReference Include="..\ResultPattern-FluentValidation.Services\ResultPattern-FluentValidation.Services.csproj" />
   </ItemGroup>
 
 </Project>

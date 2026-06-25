@@ -1,15 +1,15 @@
-﻿using FluentValidation;
-using ResultPattern_FluentValidation.Api.Models;
+using FluentValidation;
+using ResultPattern_FluentValidation.Services.Models.Request;
 
 namespace ResultPattern_FluentValidation.Api.Validators;
 
-public class CreateItemModelValidator : AbstractValidator<CreateItemModel>
+public class CreateItemRequestValidator : AbstractValidator<CreateItemRequest>
 {
-    public CreateItemModelValidator()
+    public CreateItemRequestValidator()
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .MaximumLength(150);
+            .MaximumLength(100);
 
         RuleFor(x => x.Qty)
             .GreaterThanOrEqualTo(0);

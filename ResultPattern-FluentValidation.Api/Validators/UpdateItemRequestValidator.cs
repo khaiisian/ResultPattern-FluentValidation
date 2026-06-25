@@ -1,11 +1,11 @@
-﻿using FluentValidation;
-using ResultPattern_FluentValidation.Api.Models;
+using FluentValidation;
+using ResultPattern_FluentValidation.Services.Models.Request;
 
 namespace ResultPattern_FluentValidation.Api.Validators;
 
-public class UpdateItemModelValidator : AbstractValidator<UpdateItemModel>
+public class UpdateItemRequestValidator : AbstractValidator<UpdateItemRequest>
 {
-    public UpdateItemModelValidator()
+    public UpdateItemRequestValidator()
     {
         RuleFor(x => x.Name)
             .MaximumLength(100)
@@ -15,8 +15,8 @@ public class UpdateItemModelValidator : AbstractValidator<UpdateItemModel>
             .GreaterThanOrEqualTo(0)
             .When(x => x.Qty.HasValue);
 
-        RuleFor(x=>x.Price)
+        RuleFor(x => x.Price)
             .GreaterThanOrEqualTo(0)
-            .When(x=>x.Price.HasValue);
+            .When(x => x.Price.HasValue);
     }
 }

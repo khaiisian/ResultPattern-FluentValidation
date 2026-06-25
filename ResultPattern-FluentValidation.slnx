@@ -1,4 +1,6 @@
 <Solution>
   <Project Path="ResultPattern-FluentValidation.Api/ResultPattern-FluentValidation.Api.csproj" />
+  <Project Path="ResultPattern-FluentValidation.DataAccess/ResultPattern-FluentValidation.DataAccess.csproj" />
   <Project Path="ResultPattern-FluentValidation.Db/ResultPattern-FluentValidation.Db.csproj" />
+  <Project Path="ResultPattern-FluentValidation.Services/ResultPattern-FluentValidation.Services.csproj" />
 </Solution>
