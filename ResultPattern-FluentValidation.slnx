@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
   <Project Path="ResultPattern-FluentValidation.Api/ResultPattern-FluentValidation.Api.csproj" />
   <Project Path="ResultPattern-FluentValidation.DataAccess/ResultPattern-FluentValidation.DataAccess.csproj" />
   <Project Path="ResultPattern-FluentValidation.Db/ResultPattern-FluentValidation.Db.csproj" />
